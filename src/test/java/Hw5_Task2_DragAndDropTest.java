@@ -1,38 +1,36 @@
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.DragAndDropOptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.*;
 
 public class Hw5_Task2_DragAndDropTest {
 
 
     @BeforeAll
     static void beforAll() {
-        Configuration.baseUrl = "https://github.com";
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.holdBrowserOpen = true;
-        Configuration.timeout = 5000;
+//        Configuration.holdBrowserOpen = true;
     }
 
     @Test
-    void findEnterprizeInSolutions() throws InterruptedException {
+    void dragAndDrop(){
 
-        //      1. Открыть главную страницу GitHub
-        open("https://github.com");
+        //      1. Открыть  https://the-internet.herokuapp.com/drag_and_drop
+        open("https://the-internet.herokuapp.com/drag_and_drop");
 
-        //      2. На главной странице GitHub выберите меню Solutions -> Enterprize
-        //      с помощью команды hover для Solutions
-        $x("//button[contains(text(), 'Solution')]").hover();
-        $x("//a[contains(text(), 'Enterprise')]").click();
+        //      2. Перенести прямоугольник А на место B с помощью Drag&Drop Selenide.actions()
+//        $("#column-a").dragAndDrop((DragAndDropOptions) $("#column-b")); -не удалось использовать вместо actions()
 
-        //      3. Убедитесь что загрузилась нужная страница (заголовок - "The AI-powered"
-        $x("//h1[contains(text(), 'The AI-powered')]").shouldBe(visible);
+        actions().moveToElement($("#column-a")).clickAndHold().
+                moveByOffset(214, 0).release().perform();
 
-
+        //      3. Проверьте, что прямоугольники действительно поменялись
+        $x("//*[@id=\"column-a\"]/header").shouldHave(text("B"));
+        $x("//*[@id=\"column-b\"]/header").shouldHave(text("A"));
 
     }
 }

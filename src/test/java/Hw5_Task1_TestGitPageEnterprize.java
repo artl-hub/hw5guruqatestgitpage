@@ -11,7 +11,6 @@ public class Hw5_Task1_TestGitPageEnterprize {
 
     @BeforeAll
     static void beforAll() {
-        Configuration.baseUrl = "https://github.com";
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
 //        Configuration.holdBrowserOpen = true;
